@@ -23,6 +23,7 @@ with pkgs;
             ".local/share/applications/multimc.desktop".source = no-display-desktop;
             ".local/share/applications/nvidia-settings.desktop".source = no-display-desktop;
             ".local/share/applications/Proton Experimental.desktop".source = no-display-desktop;
+            ".local/share/applications/protontricks.desktop".source = no-display-desktop;
             ".local/share/applications/xterm.desktop".source = no-display-desktop;
         };
 
