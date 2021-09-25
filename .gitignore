@@ -1,0 +1,2 @@
+# Don't include hashed password in repository
+system/password.txt
