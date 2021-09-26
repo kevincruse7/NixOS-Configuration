@@ -23,7 +23,6 @@ with pkgs;
 
     boot = {
         consoleLogLevel = 3;
-
         kernelParams = [ "quiet" ];
 
         loader = {

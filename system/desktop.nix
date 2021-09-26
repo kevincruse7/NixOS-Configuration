@@ -13,10 +13,7 @@ with pkgs;
 
 
     boot.kernelParams = [ "nvidia-drm.modeset=1" ];
-
-
-    # HiDPI defaults come out way too large
-    console.font = "Lat2-Terminus16";
+    console.font = "Lat2-Terminus16";  # HiDPI defaults come out way too large
 
 
     environment.systemPackages = let
