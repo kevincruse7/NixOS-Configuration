@@ -30,7 +30,7 @@ with pkgs;
     };
 
 
-    powerManagement.cpuFreqGovernor = "ondemand";
+    powerManagement.cpuFreqGovernor = "powersave";
 
 
     services = {
