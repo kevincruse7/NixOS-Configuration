@@ -29,9 +29,9 @@ with pkgs;
 
         packages = [
             anki
-            brave
             discord
             exiftool
+            firefox
             hunspellDicts.en_US
             libreoffice-fresh
             multimc
