@@ -27,7 +27,7 @@ with pkgs;
 
         loader = {
             # Enable only when necessary to avoid NVRAM wear
-            #efi.canTouchEfiVariables = true;
+            efi.canTouchEfiVariables = true;
 
             systemd-boot = {
                 enable = true;
@@ -37,20 +37,7 @@ with pkgs;
     };
 
 
-    environment = {
-        systemPackages = [
-            gnome.dconf-editor
-            gnome.gnome-tweak-tool
-            gnomeExtensions.appindicator
-            mullvad-vpn
-        ];
-
-        gnome.excludePackages = [
-            epiphany
-            gnome.geary
-            gnome.totem
-        ];
-    };
+    environment.systemPackages = [ mullvad-vpn ];
 
 
     fonts = {
@@ -67,19 +54,27 @@ with pkgs;
     };
 
 
-    # Audio DAC configuration
-    hardware.pulseaudio.daemon.config = {
-        default-sample-format = "s24le";
-        default-sample-rate = 96000;
-        resample-method = "soxr-vhq";
-        avoid-resampling = true;
+    hardware.pulseaudio = {
+        enable = true;
+
+        # Audio DAC configuration
+        daemon.config = {
+            default-sample-format = "s24le";
+            default-sample-rate = 96000;
+            resample-method = "soxr-vhq";
+            avoid-resampling = true;
+        };
     };
 
 
-    # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-    # Per-interface useDHCP will be mandatory in the future, so this generated config
-    # replicates the default behaviour.
-    networking.useDHCP = false;
+    networking = {
+        networkmanager.enable = true;
+
+        # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+        # Per-interface useDHCP will be mandatory in the future, so this generated config
+        # replicates the default behaviour.
+        useDHCP = false;
+    };
 
 
     programs = {
@@ -132,12 +127,13 @@ with pkgs;
 
         xserver = {
             enable = true;
-            desktopManager.gnome.enable = true;
 
-            displayManager.gdm = {
-                autoSuspend = false;
+            desktopManager.plasma5 = {
                 enable = true;
+                phononBackend = "vlc";
             };
+
+            displayManager.sddm.enable = true;
         };
     };
 

@@ -36,6 +36,7 @@ with pkgs;
             libreoffice-fresh
             multimc
             neofetch
+            nixos-option
             protontricks
             qbittorrent
             spotify
@@ -45,6 +46,12 @@ with pkgs;
             xournalpp
             zoom-us
         ];
+    };
+
+
+    nixpkgs.config = {
+        allowUnfree = true;
+        firefox.enablePlasmaBrowserIntegration = true;
     };
 
 

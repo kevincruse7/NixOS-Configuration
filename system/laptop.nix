@@ -15,15 +15,11 @@ with pkgs;
 
 
     hardware = {
-        bluetooth.enable = false;
+        bluetooth.enable = true;
 
-        nvidia = {
-            prime = {
-                intelBusId = "PCI:0:2:0";
-                nvidiaBusId = "PCI:1:0:0";
-            };
-
-            nvidiaPersistenced = true;  # Keep GPU powered on, as GDM fails to activate it otherwise
+        nvidia.prime = {
+            intelBusId = "PCI:0:2:0";
+            nvidiaBusId = "PCI:1:0:0";
         };
     };
 
@@ -34,12 +30,9 @@ with pkgs;
     };
 
 
-    powerManagement.cpuFreqGovernor = "powersave";
-
-
     services = {
+        hardware.bolt.enable = true;
         logind.lidSwitch = "lock";
-        power-profiles-daemon.enable = false;
 
         tlp = {
             enable = true;
@@ -53,12 +46,12 @@ with pkgs;
                 CPU_SCALING_GOVERNOR_ON_AC = "performance";
             };
         };
+
+        # Fix monitor configuration in SDDM
+        xserver.displayManager.setupCommands = ''
+            ${xorg.xrandr}/bin/xrandr \
+                --output eDP-1 --mode 1920x1080 --pos 1920x0 \
+                --output DP-1 --mode 1920x1080 --pos 0x0 --rate 60
+        '';
     };
-
-
-    systemd.tmpfiles.rules = let
-        monitors-xml = callPackage ../pkgs/monitors-xml {};
-    in [
-        "L+ /run/gdm/.config/monitors.xml - - - - ${monitors-xml}"
-    ];
 }
