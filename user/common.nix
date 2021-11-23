@@ -63,7 +63,11 @@ with pkgs;
             enable = true;
             userName = "Kevin Cruse";
             userEmail = "kevincruse7@gmail.com";
-            extraConfig.init.defaultBranch = "main";
+
+            extraConfig = {
+                credential.helper = "store";
+                init.defaultBranch = "main";
+            };
         };
     };
 }
