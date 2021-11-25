@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{config, pkgs, ...}:
 
 with pkgs;
 {
@@ -13,7 +13,6 @@ with pkgs;
 
 
     boot.kernelParams = [ "nvidia-drm.modeset=1" ];
-    console.font = "Lat2-Terminus16";  # HiDPI defaults come out way too large
 
 
     environment.systemPackages = let
@@ -21,6 +20,10 @@ with pkgs;
     in [
         enigmatica-6-server
     ];
+
+
+    # Screen is high resolution, but not high DPI
+    hardware.video.hidpi.enable = false;
 
 
     networking = {
@@ -34,6 +37,15 @@ with pkgs;
 
     services = {
         sshd.enable = true;
-        xserver.videoDrivers = [ "nvidia" ];
+
+        xserver = {
+            # Force composition pipeline on to fix KDE lagginess
+            displayManager.setupCommands = ''
+                ${config.hardware.nvidia.package.settings}/bin/nvidia-settings --assign \
+                    CurrentMetaMode="nvidia-auto-select +0+0 { ForceCompositionPipeline = On }"
+            '';
+
+            videoDrivers = [ "nvidia" ];
+        };
     };
 }
