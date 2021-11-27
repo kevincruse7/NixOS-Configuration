@@ -27,7 +27,7 @@ with pkgs;
 
         loader = {
             # Enable only when necessary to avoid NVRAM wear
-            efi.canTouchEfiVariables = true;
+            # efi.canTouchEfiVariables = true;
 
             systemd-boot = {
                 enable = true;
@@ -37,7 +37,14 @@ with pkgs;
     };
 
 
-    environment.systemPackages = [ mullvad-vpn ];
+    environment.systemPackages = let
+        disable-dpms = callPackage ../pkgs/disable-dpms {};
+        enable-dpms = callPackage ../pkgs/enable-dpms {};
+    in [
+        disable-dpms
+        enable-dpms
+        mullvad-vpn
+    ];
 
 
     fonts = {

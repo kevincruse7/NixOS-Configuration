@@ -47,11 +47,16 @@ with pkgs;
             };
         };
 
-        # Fix monitor configuration in SDDM
-        xserver.displayManager.setupCommands = ''
+        xserver.displayManager.setupCommands = let
+            enable-dpms = callPackage ../pkgs/enable-dpms {};
+        in ''
+            # Fix monitor configuration
             ${xorg.xrandr}/bin/xrandr \
                 --output eDP-1 --mode 1920x1080 --pos 1920x0 \
                 --output DP-1 --mode 1920x1080 --pos 0x0 --rate 60
+
+            # Turn screen off after 30 seconds of inactivity
+            ${enable-dpms}/bin/enable-dpms
         '';
     };
 }

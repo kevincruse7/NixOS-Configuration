@@ -34,6 +34,7 @@ with pkgs;
             firefox
             hunspellDicts.en_US
             libreoffice-fresh
+            libsForQt5.kio-gdrive
             multimc
             neofetch
             nixos-option

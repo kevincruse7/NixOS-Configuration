@@ -39,10 +39,15 @@ with pkgs;
         sshd.enable = true;
 
         xserver = {
-            # Force composition pipeline on to fix KDE lagginess
-            displayManager.setupCommands = ''
+            displayManager.setupCommands = let
+                enable-dpms = callPackage ../pkgs/enable-dpms {};
+            in ''
+                # Force composition pipeline on to fix KDE lagginess
                 ${config.hardware.nvidia.package.settings}/bin/nvidia-settings --assign \
                     CurrentMetaMode="nvidia-auto-select +0+0 { ForceCompositionPipeline = On }"
+
+                # Turn screen off after 30 seconds of inactivity
+                ${enable-dpms}/bin/enable-dpms
             '';
 
             videoDrivers = [ "nvidia" ];
