@@ -16,17 +16,6 @@ with pkgs;
         username = "kevin";
         homeDirectory = "/home/kevin";
 
-        file = let
-            no-display-desktop = callPackage ../pkgs/no-display-desktop {};
-        in {
-            ".local/share/applications/cups.desktop".source = no-display-desktop;
-            ".local/share/applications/multimc.desktop".source = no-display-desktop;
-            ".local/share/applications/nvidia-settings.desktop".source = no-display-desktop;
-            ".local/share/applications/Proton Experimental.desktop".source = no-display-desktop;
-            ".local/share/applications/protontricks.desktop".source = no-display-desktop;
-            ".local/share/applications/xterm.desktop".source = no-display-desktop;
-        };
-
         packages = [
             anki
             discord
