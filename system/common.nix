@@ -2,9 +2,8 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{pkgs, ...}:
+{config, lib, pkgs, ...}:
 
-with pkgs;
 {
     imports = [ /etc/nixos/hardware-configuration.nix ];
 
@@ -38,9 +37,9 @@ with pkgs;
 
 
     environment.systemPackages = let
-        disable-dpms = callPackage ../pkgs/disable-dpms {};
-        enable-dpms = callPackage ../pkgs/enable-dpms {};
-    in [
+        disable-dpms = pkgs.callPackage ../pkgs/disable-dpms {};
+        enable-dpms = pkgs.callPackage ../pkgs/enable-dpms {};
+    in with pkgs; [
         disable-dpms
         enable-dpms
         mullvad-vpn
@@ -48,7 +47,7 @@ with pkgs;
 
 
     fonts = {
-        fonts = [
+        fonts = with pkgs; [
             noto-fonts
             noto-fonts-cjk
         ];
@@ -87,7 +86,7 @@ with pkgs;
     programs = {
         java = {
             enable = true;
-            package = jdk;
+            package = pkgs.jdk;
         };
 
         nano.nanorc = ''
@@ -130,6 +129,7 @@ with pkgs;
 
 
     services = {
+        gnome.gnome-keyring.enable = true;  # Required by some apps for storing passwords
         mullvad-vpn.enable = true;
 
         xserver = {

@@ -1,6 +1,5 @@
-{pkgs, ...}:
+{config, lib, pkgs, ...}:
 
-with pkgs;
 {
     home = {
         # This value determines the Home Manager release that your
@@ -16,11 +15,13 @@ with pkgs;
         username = "kevin";
         homeDirectory = "/home/kevin";
 
-        packages = [
+        packages = with pkgs; [
             anki
+            celluloid
             discord
             exiftool
             firefox
+            gnome.seahorse
             hunspellDicts.en_US
             libreoffice-fresh
             libsForQt5.kio-gdrive
@@ -31,7 +32,6 @@ with pkgs;
             qbittorrent
             spotify
             texlive.combined.scheme-full
-            vlc
             vscode
             xournalpp
             zoom-us

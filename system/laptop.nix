@@ -1,6 +1,5 @@
-{pkgs, ...}:
+{config, lib, pkgs, ...}:
 
-with pkgs;
 {
     imports = [
         ./common.nix
@@ -17,9 +16,14 @@ with pkgs;
     hardware = {
         bluetooth.enable = true;
 
-        nvidia.prime = {
-            intelBusId = "PCI:0:2:0";
-            nvidiaBusId = "PCI:1:0:0";
+        nvidia = {
+            nvidiaSettings = false;  # Settings application not needed with PRIME offload
+            powerManagement.finegrained = true;  # More efficient dGPU power management with PRIME offload
+
+            prime = {
+                intelBusId = "PCI:0:2:0";
+                nvidiaBusId = "PCI:1:0:0";
+            };
         };
     };
 
@@ -34,29 +38,27 @@ with pkgs;
         hardware.bolt.enable = true;
         logind.lidSwitch = "lock";
 
-        tlp = {
-            enable = true;
+        tlp.settings = {
+            CPU_MIN_PERF_ON_AC = 0;
+            CPU_MAX_PERF_ON_AC = 100;
+            CPU_MIN_PERF_ON_BAT = 0;
+            CPU_MAX_PERF_ON_BAT = 30;
 
-            settings = {
-                CPU_MIN_PERF_ON_AC = 0;
-                CPU_MAX_PERF_ON_AC = 100;
-                CPU_MIN_PERF_ON_BAT = 0;
-                CPU_MAX_PERF_ON_BAT = 30;
-
-                CPU_SCALING_GOVERNOR_ON_AC = "performance";
-            };
+            CPU_SCALING_GOVERNOR_ON_AC = "performance";
         };
 
-        xserver.displayManager.setupCommands = let
-            enable-dpms = callPackage ../pkgs/enable-dpms {};
-        in ''
-            # Fix monitor configuration
-            ${xorg.xrandr}/bin/xrandr \
-                --output eDP-1 --mode 1920x1080 --pos 1920x0 \
-                --output DP-1 --mode 1920x1080 --pos 0x0 --rate 60
+        xserver = {
+            displayManager.setupCommands = let
+                enable-dpms = pkgs.callPackage ../pkgs/enable-dpms {};
+            in ''
+                # Fix monitor configuration
+                ${pkgs.xorg.xrandr}/bin/xrandr \
+                    --output eDP-1 --mode 1920x1080 --pos 1920x0 \
+                    --output DP-1 --mode 1920x1080 --pos 0x0 --rate 60
 
-            # Turn screen off after 30 seconds of inactivity
-            ${enable-dpms}/bin/enable-dpms
-        '';
+                # Turn screen off after 30 seconds of inactivity
+                ${enable-dpms}/bin/enable-dpms
+            '';
+        };
     };
 }

@@ -1,5 +1,5 @@
-{writeShellScriptBin, xset, ...}:
+{config, lib, pkgs, stdenv}:
 
-writeShellScriptBin "enable-dpms" ''
-    ${xset}/bin/xset dpms 30
+pkgs.writeShellScriptBin "enable-dpms" ''
+    ${pkgs.xorg.xset}/bin/xset dpms 30
 ''

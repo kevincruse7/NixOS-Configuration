@@ -1,6 +1,5 @@
-{pkgs, ...}:
+{config, lib, pkgs, ...}:
 
-with pkgs;
 {
     imports = [ ./common.nix ];
 }

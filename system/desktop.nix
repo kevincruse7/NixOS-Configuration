@@ -1,6 +1,5 @@
-{config, pkgs, ...}:
+{config, lib, pkgs, ...}:
 
-with pkgs;
 {
     imports = [
         ./common.nix
@@ -16,7 +15,7 @@ with pkgs;
 
 
     environment.systemPackages = let
-        enigmatica-6-server = callPackage ../pkgs/enigmatica-6-server {};
+        enigmatica-6-server = pkgs.callPackage ../pkgs/enigmatica-6-server {};
     in [
         enigmatica-6-server
     ];

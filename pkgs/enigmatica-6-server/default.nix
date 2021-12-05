@@ -1,33 +1,14 @@
-{
-    lib,
-    stdenv,
-
-    fetchFromGitHub,
-    fetchgit,
-
-    coreutils,
-    gawk,
-    gnugrep,
-    gnused,
-    gnutar,
-    jdk8,
-    makeWrapper,
-    procps,
-    sudo,
-    tmux,
-    util-linux,
-    wget
-}:
+{config, lib, pkgs, stdenv}:
 
 stdenv.mkDerivation {
     pname = "enigmatica-6-server";
     version = "0.5.9";
 
-    buildInputs = [ makeWrapper ];
+    buildInputs = [ pkgs.makeWrapper ];
 
     srcs = [
         (
-            fetchFromGitHub {
+            pkgs.fetchFromGitHub {
                 name = "server-files";
                 owner = "NillerMedDild";
                 repo = "Enigmatica6";
@@ -36,7 +17,7 @@ stdenv.mkDerivation {
             }
         )
         (
-            fetchgit {
+            pkgs.fetchgit {
                 name = "daemon-files";
                 url = "https://aur.archlinux.org/minecraft-server.git";
                 rev = "ce8d2b69e85568bed0fe5c878de383f39d18501f";  # Version 1.17.1-2
@@ -70,7 +51,7 @@ stdenv.mkDerivation {
         install -Dm 755 server-files/server_files/start-server.sh $out/lib/start-server-base.sh
         install -Dm 755 daemon-files/minecraftd.sh $out/lib/minecraftd-base.sh
 
-        makeWrapper $out/lib/start-server-base.sh $out/lib/start-server.sh --prefix PATH : ${lib.makeBinPath [
+        makeWrapper $out/lib/start-server-base.sh $out/lib/start-server.sh --prefix PATH : ${with pkgs; lib.makeBinPath [
             coreutils
             gawk
             gnugrep
@@ -85,7 +66,7 @@ stdenv.mkDerivation {
 
         ### bin ###
 
-        makeWrapper $out/lib/minecraftd-base.sh $out/bin/minecraftd --prefix PATH : ${lib.makeBinPath [
+        makeWrapper $out/lib/minecraftd-base.sh $out/bin/minecraftd --prefix PATH : ${with pkgs; lib.makeBinPath [
             coreutils
             gawk
             gnugrep

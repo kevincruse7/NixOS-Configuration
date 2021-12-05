@@ -1,10 +1,9 @@
 # System module that installs and configures an Enigmatica 6 server to automatically run under its own user
 
-{config, pkgs, ...}:
+{config, lib, pkgs, ...}:
 
-with pkgs;
 let
-    enigmatica-6-server = callPackage ../../pkgs/enigmatica-6-server {};
+    enigmatica-6-server = pkgs.callPackage ../../pkgs/enigmatica-6-server {};
 in {
     environment.systemPackages = [ enigmatica-6-server ];
 
@@ -20,7 +19,7 @@ in {
             enable = true;
             description = "Enigmatica 6 server";
             wantedBy = [ "multi-user.target" ];
-            
+
             after = [
                 "local-fs.target"
                 "network.target"
@@ -52,7 +51,7 @@ in {
             group = "minecraft";
             home = "/srv/minecraft";
             createHome = true;
-            shell = bash;
+            shell = pkgs.bash;
         };
     };
 }
