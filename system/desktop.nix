@@ -1,18 +1,7 @@
-{config, lib, pkgs, ...}:
-
-{
-    imports = [
-        ./common.nix
-        ../modules/enigmatica-6-server
-
-        <nixos-hardware/common/pc>
-        <nixos-hardware/common/pc/ssd>
-        <nixos-hardware/common/cpu/intel>
-    ];
-
-
+{config, lib, pkgs, ...}: {
     boot.kernelParams = [ "nvidia-drm.modeset=1" ];
-
+    hardware.video.hidpi.enable = false;  # Screen is high resolution, but not high DPI
+    powerManagement.cpuFreqGovernor = "performance";
 
     environment.systemPackages = let
         enigmatica-6-server = pkgs.callPackage ../pkgs/enigmatica-6-server {};
@@ -20,24 +9,25 @@
         enigmatica-6-server
     ];
 
-
-    # Screen is high resolution, but not high DPI
-    hardware.video.hidpi.enable = false;
-
+    imports = [
+        ./common.nix
+        ../modules/enigmatica-6-server
+        <nixos-hardware/common/pc>
+        <nixos-hardware/common/pc/ssd>
+        <nixos-hardware/common/cpu/intel>
+    ];
 
     networking = {
         hostName = "Kevin-Desktop";
         interfaces.eno1.useDHCP = true;
     };
 
-
-    powerManagement.cpuFreqGovernor = "performance";
-
-
     services = {
         sshd.enable = true;
 
         xserver = {
+            videoDrivers = [ "nvidia" ];
+
             displayManager.setupCommands = let
                 enable-dpms = callPackage ../pkgs/enable-dpms {};
             in ''
@@ -48,8 +38,6 @@
                 # Turn screen off after 30 seconds of inactivity
                 ${enable-dpms}/bin/enable-dpms
             '';
-
-            videoDrivers = [ "nvidia" ];
         };
     };
 }

@@ -1,26 +1,13 @@
-{config, lib, pkgs, ...}:
-
-{
+{config, lib, pkgs, ...}: {
     home = {
-        # This value determines the Home Manager release that your
-        # configuration is compatible with. This helps avoid breakage
-        # when a new Home Manager release introduces backwards
-        # incompatible changes.
-        #
-        # You can update Home Manager without changing this value. See
-        # the Home Manager release notes for a list of state version
-        # changes in each release.
-        stateVersion = "21.05";
-
-        username = "kevin";
         homeDirectory = "/home/kevin";
+        username = "kevin";
 
         packages = with pkgs; [
             anki
             celluloid
             discord
             exiftool
-            firefox
             gnome.seahorse
             hunspellDicts.en_US
             libreoffice-fresh
@@ -31,11 +18,28 @@
             protontricks
             qbittorrent
             spotify
-            texlive.combined.scheme-full
-            vscode
             xournalpp
             zoom-us
+
+            (
+                python3.withPackages (
+                    python-packages: with python-packages; [
+                        mypy
+                        pylint
+                    ]
+                )
+            )
         ];
+
+        # This value determines the Home Manager release that your
+        # configuration is compatible with. This helps avoid breakage
+        # when a new Home Manager release introduces backwards
+        # incompatible changes.
+        #
+        # You can update Home Manager without changing this value. See
+        # the Home Manager release notes for a list of state version
+        # changes in each release.
+        stateVersion = "21.05";
     };
 
 
@@ -46,8 +50,9 @@
 
 
     programs = {
-        # Let Home Manager install and manage itself.
-        home-manager.enable = true;
+        firefox.enable = true;
+        home-manager.enable = true;  # Let Home Manager install and manage itself
+        vscode.enable = true;
 
         git = {
             enable = true;
@@ -58,6 +63,11 @@
                 credential.helper = "store";
                 init.defaultBranch = "main";
             };
+        };
+
+        texlive = {
+            enable = true;
+            package = pkgs.texlive.combined.scheme-full;
         };
     };
 }

@@ -2,39 +2,25 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{config, lib, pkgs, ...}:
-
-{
+{config, lib, pkgs, ...}: {
     imports = [ /etc/nixos/hardware-configuration.nix ];
-
-
-    # This value determines the NixOS release from which the default
-    # settings for stateful data, like file locations and database versions
-    # on your system were taken. It‘s perfectly fine and recommended to leave
-    # this value at the release version of the first install of this system.
-    # Before changing this value read the documentation for this option
-    # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-    system.stateVersion = "21.05";  # Did you read the comment?
-
-
     nixpkgs.config.allowUnfree = true;
-
+    swapDevices = [{ device = "/swapfile"; }];
 
     boot = {
         consoleLogLevel = 3;
         kernelParams = [ "quiet" ];
 
         loader = {
-            # Enable only when necessary to avoid NVRAM wear
+            # Enable only on first build to avoid NVRAM wear
             # efi.canTouchEfiVariables = true;
 
             systemd-boot = {
-                enable = true;
                 configurationLimit = 10;
+                enable = true;
             };
         };
     };
-
 
     environment.systemPackages = let
         disable-dpms = pkgs.callPackage ../pkgs/disable-dpms {};
@@ -45,33 +31,30 @@
         mullvad-vpn
     ];
 
-
     fonts = {
-        fonts = with pkgs; [
-            noto-fonts
-            noto-fonts-cjk
-        ];
-
         fontconfig.defaultFonts = {
             monospace = [ "Noto Sans Mono" ];
             sansSerif = [ "Noto Sans" ];
             serif = [ "Noto Serif" ];
         };
-    };
 
+        fonts = with pkgs; [
+            noto-fonts
+            noto-fonts-cjk
+        ];
+    };
 
     hardware.pulseaudio = {
         enable = true;
 
-        # Audio DAC configuration
+        # DAC configuration
         daemon.config = {
+            avoid-resampling = true;
             default-sample-format = "s24le";
             default-sample-rate = 96000;
             resample-method = "soxr-vhq";
-            avoid-resampling = true;
         };
     };
-
 
     networking = {
         networkmanager.enable = true;
@@ -81,7 +64,6 @@
         # replicates the default behaviour.
         useDHCP = false;
     };
-
 
     programs = {
         java = {
@@ -101,7 +83,6 @@
 
         steam.enable = true;
     };
-
 
     security = {
         # Allows users in "wheel" group to change network settings without password prompt
@@ -127,36 +108,36 @@
         }];
     };
 
-
     services = {
         gnome.gnome-keyring.enable = true;  # Required by some apps for storing passwords
         mullvad-vpn.enable = true;
 
         xserver = {
+            displayManager.sddm.enable = true;
             enable = true;
 
             desktopManager.plasma5 = {
                 enable = true;
                 phononBackend = "vlc";
             };
-
-            displayManager.sddm.enable = true;
         };
     };
 
-
-    swapDevices = [{
-        device = "/swapfile";
-    }];
-
+    # This value determines the NixOS release from which the default
+    # settings for stateful data, like file locations and database versions
+    # on your system were taken. It‘s perfectly fine and recommended to leave
+    # this value at the release version of the first install of this system.
+    # Before changing this value read the documentation for this option
+    # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+    system.stateVersion = "21.05";  # Did you read the comment?
 
     users = {
         mutableUsers = false;
 
         users.kevin = {
-            isNormalUser = true;
             description = "Kevin Cruse";
             extraGroups = [ "wheel" ];
+            isNormalUser = true;
             passwordFile = "${./password.txt}";
         };
     };

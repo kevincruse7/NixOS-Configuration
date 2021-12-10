@@ -1,6 +1,4 @@
-{config, lib, pkgs, stdenv}:
-
-stdenv.mkDerivation {
+{config, lib, pkgs, stdenv}: stdenv.mkDerivation {
     pname = "enigmatica-6-server";
     version = "0.5.9";
 

@@ -1,24 +1,14 @@
-{config, lib, pkgs, ...}:
-
-{
-    imports = [
-        ./common.nix
-
-        <nixos-hardware/dell/xps/15-7590>
-        <nixos-hardware/common/gpu/nvidia.nix>
-    ];
-
-
-    # Use more power efficient deep sleep
-    boot.kernelParams = [ "mem_sleep_default=deep" ];
-
+{config, lib, pkgs, ...}: {
+    boot.kernelParams = [ "mem_sleep_default=deep" ];  # Use more power efficient deep sleep
 
     hardware = {
         bluetooth.enable = true;
 
         nvidia = {
             nvidiaSettings = false;  # Settings application not needed with PRIME offload
-            powerManagement.finegrained = true;  # More efficient dGPU power management with PRIME offload
+
+            # More efficient dGPU power management with PRIME offload
+            powerManagement.finegrained = true;
 
             prime = {
                 intelBusId = "PCI:0:2:0";
@@ -27,23 +17,27 @@
         };
     };
 
+    imports = [
+        ./common.nix
+
+        <nixos-hardware/dell/xps/15-7590>
+        <nixos-hardware/common/gpu/nvidia.nix>
+    ];
 
     networking = {
         hostName = "Kevin-Laptop";
         interfaces.wlp59s0.useDHCP = true;
     };
 
-
     services = {
         hardware.bolt.enable = true;
         logind.lidSwitch = "lock";
 
         tlp.settings = {
-            CPU_MIN_PERF_ON_AC = 0;
             CPU_MAX_PERF_ON_AC = 100;
-            CPU_MIN_PERF_ON_BAT = 0;
             CPU_MAX_PERF_ON_BAT = 30;
-
+            CPU_MIN_PERF_ON_AC = 0;
+            CPU_MIN_PERF_ON_BAT = 0;
             CPU_SCALING_GOVERNOR_ON_AC = "performance";
         };
 
