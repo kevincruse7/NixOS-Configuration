@@ -52,6 +52,7 @@
     programs = {
         firefox.enable = true;
         home-manager.enable = true;  # Let Home Manager install and manage itself
+        texlive.enable = true;
         vscode.enable = true;
 
         git = {
@@ -63,11 +64,6 @@
                 credential.helper = "store";
                 init.defaultBranch = "main";
             };
-        };
-
-        texlive = {
-            enable = true;
-            package = pkgs.texlive.combined.scheme-full;
         };
     };
 }
