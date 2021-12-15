@@ -1,7 +1,7 @@
 # System module installs and configures a Minecraft
 # server to automatically run under its own user
 
-{config, lib, pkgs, ...}: let
+{ config, lib, pkgs, ... }: let
     minecraft-server = pkgs.callPackage ../../pkgs/minecraft-server {};
 in {
     environment.systemPackages = [ minecraft-server ];

@@ -1,4 +1,4 @@
-{config, lib, pkgs, stdenv}: let
+{ config, lib, pkgs, stdenv }: let
     minecraftVersion = "1.18.1";
     paperBuild = "76";
 

@@ -1,4 +1,4 @@
-{config, lib, pkgs, ...}: {
+{ config, lib, pkgs, ... }: {
     boot.kernelParams = [ "mem_sleep_default=deep" ];  # Use more power efficient deep sleep
 
     hardware = {
@@ -18,10 +18,10 @@
     };
 
     imports = [
-        ./common.nix
-
-        <nixos-hardware/dell/xps/15-7590>
         <nixos-hardware/common/gpu/nvidia.nix>
+        <nixos-hardware/dell/xps/15-7590>
+
+        ./common.nix
     ];
 
     networking = {

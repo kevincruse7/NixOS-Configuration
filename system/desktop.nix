@@ -1,18 +1,16 @@
-{config, lib, pkgs, ...}: {
+{ config, lib, pkgs, ... }: {
     boot.kernelParams = [ "nvidia-drm.modeset=1" ];
     hardware.video.hidpi.enable = false;  # Screen is high resolution, but not high DPI
     powerManagement.cpuFreqGovernor = "performance";
 
     environment.systemPackages = let
         minecraft-server = pkgs.callPackage ../pkgs/minecraft-server {};
-    in [
-        minecraft-server
-    ];
+    in [ minecraft-server ];
 
     imports = [
+        <nixos-hardware/common/cpu/intel>
         <nixos-hardware/common/pc>
         <nixos-hardware/common/pc/ssd>
-        <nixos-hardware/common/cpu/intel>
 
         ./common.nix
         ../modules/minecraft-server
