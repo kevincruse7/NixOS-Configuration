@@ -1,0 +1,35 @@
+diff --git a/minecraftd.conf b/minecraftd.conf
+index 13f3371..60a05dc 100644
+--- a/minecraftd.conf
++++ b/minecraftd.conf
+@@ -14,7 +14,7 @@ SESSION_NAME="minecraft"
+ # System parameters for java
+ #  -Xms sets the intial heap size (must be a multiple of 1024 and greater than 2MB, no spaces!)
+ #  -Xmx sets the maximum heap size (must be a multiple of 1024 and greater than 2MB, no spaces!)
+-SERVER_START_CMD="java -Xms512M -Xmx1024M -jar './${MAIN_EXECUTABLE}' nogui"
++SERVER_START_CMD="java -Xms6G -Xmx6G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -jar '@serverJar@' --nogui"
+ 
+ # System parameters for the actual game server
+ # Describes whether a daemon process which stops the server if it is not used by a player
+diff --git a/minecraftd.sh b/minecraftd.sh
+index 78cfc2e..645a4c5 100755
+--- a/minecraftd.sh
++++ b/minecraftd.sh
+@@ -33,7 +33,7 @@ declare -r game="minecraft"
+ [[ -n "${GAME_COMMAND_DUMP}" ]] && declare -r GAME_COMMAND_DUMP=${GAME_COMMAND_DUMP} || GAME_COMMAND_DUMP="/tmp/${myname}_${SESSION_NAME}_command_dump.txt"
+ 
+ # Variables passed over the command line will always override the one from a config file
+-source /etc/conf.d/"${game}" 2>/dev/null || >&2 echo "Could not source /etc/conf.d/${game}"
++source @out@/etc/"${game}d.conf" 2>/dev/null || >&2 echo "Could not source @out@/etc/${game}d.conf"
+ 
+ # Preserve the content of IDLE_SERVER without making it readonly
+ [[ -n ${tmp_IDLE_SERVER} ]] && IDLE_SERVER=${tmp_IDLE_SERVER}
+@@ -175,7 +175,7 @@ server_start() {
+ 		# Use a plain file as command buffers for the server startup and switch to a FIFO pipe later
+ 		${SUDO_CMD} touch "${GAME_COMMAND_DUMP}"
+ 		# Ensure pipe-pine is started before the server itself by splitting the session creation and server startup
+-		${SUDO_CMD} tmux -L "${SESSION_NAME}" new-session -s "${SESSION_NAME}" -c "${SERVER_ROOT}" -d /bin/bash
++		${SUDO_CMD} tmux -L "${SESSION_NAME}" new-session -s "${SESSION_NAME}" -c "${SERVER_ROOT}" -d @bash@/bin/bash
+ 		${SUDO_CMD} tmux -L "${SESSION_NAME}" wait-for -L "command_lock"
+ 		${SUDO_CMD} tmux -L "${SESSION_NAME}" pipe-pane -t "${SESSION_NAME}":0.0 "cat > ${GAME_COMMAND_DUMP}"
+ 		${SUDO_CMD} tmux -L "${SESSION_NAME}" send-keys -t "${SESSION_NAME}":0.0 "exec ${SERVER_START_CMD}" Enter

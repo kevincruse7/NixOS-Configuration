@@ -4,17 +4,18 @@
     powerManagement.cpuFreqGovernor = "performance";
 
     environment.systemPackages = let
-        enigmatica-6-server = pkgs.callPackage ../pkgs/enigmatica-6-server {};
+        minecraft-server = pkgs.callPackage ../pkgs/minecraft-server {};
     in [
-        enigmatica-6-server
+        minecraft-server
     ];
 
     imports = [
-        ./common.nix
-        ../modules/enigmatica-6-server
         <nixos-hardware/common/pc>
         <nixos-hardware/common/pc/ssd>
         <nixos-hardware/common/cpu/intel>
+
+        ./common.nix
+        ../modules/minecraft-server
     ];
 
     networking = {
@@ -29,7 +30,7 @@
             videoDrivers = [ "nvidia" ];
 
             displayManager.setupCommands = let
-                enable-dpms = callPackage ../pkgs/enable-dpms {};
+                enable-dpms = pkgs.callPackage ../pkgs/enable-dpms {};
             in ''
                 # Force composition pipeline on to fix KDE lagginess
                 ${config.hardware.nvidia.package.settings}/bin/nvidia-settings --assign \
