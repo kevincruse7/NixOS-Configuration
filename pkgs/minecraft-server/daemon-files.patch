@@ -1,5 +1,5 @@
 diff --git a/minecraftd.conf b/minecraftd.conf
-index 13f3371..60a05dc 100644
+index 13f3371..251112f 100644
 --- a/minecraftd.conf
 +++ b/minecraftd.conf
 @@ -14,7 +14,7 @@ SESSION_NAME="minecraft"
@@ -7,7 +7,7 @@ index 13f3371..60a05dc 100644
  #  -Xms sets the intial heap size (must be a multiple of 1024 and greater than 2MB, no spaces!)
  #  -Xmx sets the maximum heap size (must be a multiple of 1024 and greater than 2MB, no spaces!)
 -SERVER_START_CMD="java -Xms512M -Xmx1024M -jar './${MAIN_EXECUTABLE}' nogui"
-+SERVER_START_CMD="java -Xms6G -Xmx6G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -jar '@serverJar@' --nogui"
++SERVER_START_CMD="java -Xms8G -Xmx8G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -jar '@serverJar@' --nogui"
  
  # System parameters for the actual game server
  # Describes whether a daemon process which stops the server if it is not used by a player
