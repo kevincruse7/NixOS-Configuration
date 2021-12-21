@@ -1,4 +1,6 @@
 { config, lib, pkgs, ... }: {
+    nixpkgs.config.allowUnfree = true;
+
     home = {
         homeDirectory = "/home/kevin";
         username = "kevin";
@@ -42,18 +44,15 @@
         stateVersion = "21.05";
     };
 
-
-    nixpkgs.config = {
-        allowUnfree = true;
-        firefox.enablePlasmaBrowserIntegration = true;
-    };
-
-
     programs = {
-        firefox.enable = true;
         home-manager.enable = true;  # Let Home Manager install and manage itself
         texlive.enable = true;
         vscode.enable = true;
+
+        firefox = {
+            enable = true;
+            package = pkgs.firefox.override { cfg.enablePlasmaBrowserIntegration = true; };
+        };
 
         git = {
             enable = true;
