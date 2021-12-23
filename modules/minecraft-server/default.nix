@@ -24,6 +24,7 @@ in {
         enable = true;
         package = pkgs.mariadb;
         bind = "127.0.0.1";  # Only allow connections from localhost
+        initialDatabases = [{ name = "logblock"; }];
 
         # MySQL settings required by LogBlock
         settings.mysqld = {
@@ -35,12 +36,7 @@ in {
             skip_name_resolve = true;
         };
 
-        initialDatabases = [{
-            name = "logblock";
-            schema = ./logblock-db-schema.sql;
-        }];
-
-        initialScript = pkgs.writeText "logblock-db-users.sql" ''
+        initialScript = pkgs.writeText "logblock-db-user.sql" ''
             CREATE USER minecraft@127.0.0.1;
             GRANT ALL PRIVILEGES ON logblock.* TO minecraft@127.0.0.1;
         '';
