@@ -47,7 +47,7 @@ in {
     };
 
     systemd.services.minecraftd = {
-        enable = false;
+        enable = true;
         description = "Minecraft server daemon";
         wantedBy = [ "multi-user.target" ];
 
