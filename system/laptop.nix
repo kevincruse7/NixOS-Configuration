@@ -1,4 +1,5 @@
 { config, lib, pkgs, ... }: {
+    imports = [ ./common.nix ];
     boot.kernelParams = [ "mem_sleep_default=deep" ];  # Use more power efficient deep sleep
 
     hardware = {
@@ -17,12 +18,7 @@
         };
     };
 
-    imports = [
-        <nixos-hardware/common/gpu/nvidia.nix>
-        <nixos-hardware/dell/xps/15-7590>
-
-        ./common.nix
-    ];
+    home-manager.users.kevin = import ../user/laptop.nix;
 
     networking = {
         hostName = "Kevin-Laptop";
@@ -42,16 +38,14 @@
         };
 
         xserver = {
-            displayManager.setupCommands = let
-                enable-dpms = pkgs.callPackage ../pkgs/enable-dpms {};
-            in ''
+            displayManager.setupCommands = ''
                 # Fix monitor configuration
                 ${pkgs.xorg.xrandr}/bin/xrandr \
                     --output eDP-1 --mode 1920x1080 --pos 1920x0 \
                     --output DP-1 --mode 1920x1080 --pos 0x0 --rate 60
 
                 # Turn screen off after 30 seconds of inactivity
-                ${enable-dpms}/bin/enable-dpms
+                ${pkgs.enable-dpms}/bin/enable-dpms
             '';
         };
     };

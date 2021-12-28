@@ -1,3 +1,3 @@
-{ config, lib, pkgs, stdenv }: pkgs.writeShellScriptBin "disable-dpms" ''
-    ${pkgs.xorg.xset}/bin/xset -dpms
+{ pkgs, stdenv }: with pkgs; writeShellScriptBin "disable-dpms" ''
+    ${xorg.xset}/bin/xset -dpms
 ''

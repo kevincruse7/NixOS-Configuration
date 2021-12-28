@@ -1,12 +1,4 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, lib, pkgs, ... }: {
-    imports = [ /etc/nixos/hardware-configuration.nix ];
-    nixpkgs.config.allowUnfree = true;
-    swapDevices = [{ device = "/swapfile"; }];
-
     boot = {
         consoleLogLevel = 3;
         kernelParams = [ "quiet" ];
@@ -22,14 +14,23 @@
         };
     };
 
-    environment.systemPackages = let
-        disable-dpms = pkgs.callPackage ../pkgs/disable-dpms {};
-        enable-dpms = pkgs.callPackage ../pkgs/enable-dpms {};
-    in with pkgs; [
+    environment.systemPackages = with pkgs; [
         disable-dpms
         enable-dpms
         mullvad-vpn
     ];
+
+    fileSystems = {
+        "/" = {
+            device = "/dev/disk/by-label/nixos";
+            fsType = "ext4";
+        };
+
+        "/boot" = {
+            device = "/dev/disk/by-label/efi";
+            fsType = "vfat";
+        };
+    };
 
     fonts = {
         fontconfig.defaultFonts = {
@@ -56,13 +57,28 @@
         };
     };
 
+    home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+    };
+
     networking = {
         networkmanager.enable = true;
-
-        # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-        # Per-interface useDHCP will be mandatory in the future, so this generated config
-        # replicates the default behaviour.
         useDHCP = false;
+    };
+
+    nix = {
+        package = pkgs.nixUnstable;
+        extraOptions = "experimental-features = nix-command flakes";
+    };
+
+    nixpkgs = {
+        config.allowUnfree = true;
+
+        overlays = [(self: super: {
+            disable-dpms = self.callPackage ../pkgs/disable-dpms {};
+            enable-dpms = self.callPackage ../pkgs/enable-dpms {};
+        })];
     };
 
     programs = {
@@ -123,22 +139,17 @@
         };
     };
 
-    # This value determines the NixOS release from which the default
-    # settings for stateful data, like file locations and database versions
-    # on your system were taken. It‘s perfectly fine and recommended to leave
-    # this value at the release version of the first install of this system.
-    # Before changing this value read the documentation for this option
-    # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-    system.stateVersion = "21.05";  # Did you read the comment?
+    swapDevices = [{ device = "/swapfile"; }];
+    system.stateVersion = "21.05";
 
     users = {
         mutableUsers = false;
 
         users.kevin = {
             description = "Kevin Cruse";
-            extraGroups = [ "wheel" ];
             isNormalUser = true;
-            passwordFile = "${./password.txt}";
+            extraGroups = [ "wheel" ];
+            passwordFile = "/etc/nixos/password.txt";
         };
     };
 }

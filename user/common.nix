@@ -1,9 +1,7 @@
 { config, lib, pkgs, ... }: {
-    nixpkgs.config.allowUnfree = true;
-
     home = {
-        homeDirectory = "/home/kevin";
         username = "kevin";
+        homeDirectory = "/home/kevin";
 
         packages = with pkgs; [
             anki
@@ -33,21 +31,13 @@
             )
         ];
 
-        # This value determines the Home Manager release that your
-        # configuration is compatible with. This helps avoid breakage
-        # when a new Home Manager release introduces backwards
-        # incompatible changes.
-        #
-        # You can update Home Manager without changing this value. See
-        # the Home Manager release notes for a list of state version
-        # changes in each release.
         stateVersion = "21.05";
     };
 
+    nixpkgs.config.allowUnfree = true;
+
     programs = {
         home-manager.enable = true;  # Let Home Manager install and manage itself
-        texlive.enable = true;
-        vscode.enable = true;
 
         firefox = {
             enable = true;
@@ -64,5 +54,8 @@
                 init.defaultBranch = "main";
             };
         };
+
+        texlive.enable = true;
+        vscode.enable = true;
     };
 }

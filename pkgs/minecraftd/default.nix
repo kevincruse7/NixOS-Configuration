@@ -1,8 +1,8 @@
-{ config, lib, pkgs, stdenv }: let
+{ pkgs, stdenv }: with pkgs; let
     minecraftVersion = "1.18.1";
     paperBuild = "76";
 
-    serverJar = pkgs.fetchurl {
+    serverJar = fetchurl {
         name = "minecraft_server.jar";
 
         url = "https://papermc.io/api/v2/projects/paper/versions/${minecraftVersion}/builds"
@@ -12,16 +12,15 @@
         sha256 = "0zn69r95p1gzpnxfb228slbiwhx0la684s52wapywcv90ayp4xx5";
     };
 in stdenv.mkDerivation {
-    pname = "minecraft-server";
+    pname = "minecraftd";
     version = "${minecraftVersion}-${paperBuild}";
 
-    inherit (pkgs) bash;
-    inherit serverJar;
+    inherit bash serverJar;
 
+    buildInputs = [ makeWrapper ];
     preferLocalBuild = true;
-    buildInputs = [ pkgs.makeWrapper ];
 
-    src = pkgs.fetchgit {
+    src = fetchgit {
         url = "https://aur.archlinux.org/minecraft-server.git";
         rev = "78db11d1445885b0e0d7a01b022b212173e79182";  # Version 1.18.1-1
         sha256 = "0rrjnwxbc4gqd435b7gx7115iqy45gxczx1i63p426za44dxkgzr";
@@ -38,7 +37,7 @@ in stdenv.mkDerivation {
 
         # bin
         makeWrapper "$out/share/minecraftd-base.sh" "$out/bin/minecraftd" \
-            --prefix PATH : "${with pkgs; lib.makeBinPath [
+            --prefix PATH : "${lib.makeBinPath [
                 coreutils
                 gawk
                 gnugrep
