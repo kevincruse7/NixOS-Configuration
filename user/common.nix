@@ -12,6 +12,7 @@
             hunspellDicts.en_US
             libreoffice-fresh
             libsForQt5.kio-gdrive
+            lutris
             multimc
             neofetch
             nixos-option
