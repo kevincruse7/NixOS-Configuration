@@ -4,6 +4,7 @@
     inputs = {
         home-manager.url = github:nix-community/home-manager;
         nixos-hardware.url = github:NixOS/nixos-hardware;
+        nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
     };
 
     outputs = { self, home-manager, nixos-hardware, nixpkgs }: {
