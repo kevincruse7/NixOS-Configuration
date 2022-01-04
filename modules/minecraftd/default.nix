@@ -26,11 +26,11 @@ in {
         services.mysql = {
             enable = true;
             package = pkgs.mariadb;
-            bind = "127.0.0.1";  # Only allow connections from localhost
             initialDatabases = [{ name = "logblock"; }];
 
             # MySQL settings required by LogBlock
             settings.mysqld = {
+                bind_address = "127.0.0.1";  # Only allow connections from localhost
                 default_storage_engine = "INNODB";
                 innodb_buffer_pool_size = "256M";
                 key_buffer_size = "128M";
