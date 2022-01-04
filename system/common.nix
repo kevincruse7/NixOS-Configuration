@@ -96,8 +96,6 @@
             set tabstospaces
             set trimblanks
         '';
-
-        steam.enable = true;
     };
 
     security = {
