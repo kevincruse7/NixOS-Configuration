@@ -29,7 +29,7 @@
     powerManagement.cpuFreqGovernor = "performance";
 
     services = {
-        minecraftd.enable = true;
+        minecraftd.enable = false;
         sshd.enable = true;
 
         xserver = {

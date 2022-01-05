@@ -5,7 +5,7 @@
 
         loader = {
             # Enable only on first build to avoid NVRAM wear
-            # efi.canTouchEfiVariables = true;
+            efi.canTouchEfiVariables = false;
 
             systemd-boot = {
                 configurationLimit = 10;
