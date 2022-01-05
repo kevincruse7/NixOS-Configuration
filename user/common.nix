@@ -10,26 +10,29 @@
             exiftool
             gnome.seahorse
             hunspellDicts.en_US
-            libreoffice-fresh
+
+            # https://github.com/NixOS/nixpkgs/issues/153436
+            # libreoffice-fresh
+            libreoffice
+
             libsForQt5.kio-gdrive
             lutris
             multimc
             neofetch
             nixos-option
             protontricks
+
+            (python3.withPackages (
+                python-packages: with python-packages; [
+                    mypy
+                    pylint
+                ]
+            ))
+
             qbittorrent
             spotify
             xournalpp
             zoom-us
-
-            (
-                python3.withPackages (
-                    python-packages: with python-packages; [
-                        mypy
-                        pylint
-                    ]
-                )
-            )
         ];
 
         stateVersion = "21.05";
@@ -42,7 +45,10 @@
 
         firefox = {
             enable = true;
-            package = pkgs.firefox.override { cfg.enablePlasmaBrowserIntegration = true; };
+
+            package = pkgs.firefox.override {
+                cfg.enablePlasmaBrowserIntegration = true;
+            };
         };
 
         git = {
