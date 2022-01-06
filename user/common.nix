@@ -15,10 +15,14 @@
             # libreoffice-fresh
             libreoffice
 
+            libsForQt5.ark
+            libsForQt5.kcalc
+            libsForQt5.ksystemlog
             lutris
             multimc
             neofetch
             nixos-option
+            partition-manager
             protontricks
 
             (python3.withPackages (
