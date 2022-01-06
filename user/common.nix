@@ -15,7 +15,6 @@
             # libreoffice-fresh
             libreoffice
 
-            libsForQt5.kio-gdrive
             lutris
             multimc
             neofetch
