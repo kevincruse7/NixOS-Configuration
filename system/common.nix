@@ -15,9 +15,44 @@
     };
 
     environment.systemPackages = with pkgs; [
+        anki
+        celluloid
         disable-dpms
+        discord
         enable-dpms
+        exiftool
+        firefox
+        gnome.dconf-editor
+        gnome.seahorse
+        hunspellDicts.en_US
+
+        # https://github.com/NixOS/nixpkgs/issues/153436
+        # libreoffice-fresh
+        libreoffice
+
+        libsForQt5.ark
+        libsForQt5.kcalc
+        libsForQt5.ksystemlog
+        lutris
         mullvad-vpn
+        multimc
+        neofetch
+        nixos-option
+        partition-manager
+        protontricks
+
+        (python3.withPackages (
+            python-packages: with python-packages; [
+                mypy
+                pylint
+            ]
+        ))
+
+        qbittorrent
+        spotify
+        texlive.combined.scheme-basic
+        xournalpp
+        zoom-us
     ];
 
     fileSystems = {
@@ -73,7 +108,10 @@
     };
 
     nixpkgs = {
-        config.allowUnfree = true;
+        config = {
+            allowUnfree = true;
+            firefox.enablePlasmaBrowserIntegration = true;
+        };
 
         overlays = [(self: super: {
             disable-dpms = self.callPackage ../pkgs/disable-dpms {};
@@ -82,6 +120,21 @@
     };
 
     programs = {
+        git = {
+            enable = true;
+
+            config = {
+                credential.helper = "store";
+                init.defaultBranch = "main";
+                pull.rebase = true;
+
+                user = {
+                    email = "kevincruse7@gmail.com";
+                    name = "Kevin Cruse";
+                };
+            };
+        };
+
         java = {
             enable = true;
             package = pkgs.jdk;
