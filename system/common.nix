@@ -51,6 +51,7 @@
         qbittorrent
         spotify
         texlive.combined.scheme-basic
+        vscode
         xournalpp
         zoom-us
     ];
