@@ -181,6 +181,7 @@
     services = {
         gnome.gnome-keyring.enable = true;  # Required by some apps for storing passwords
         mullvad-vpn.enable = true;
+        printing.enable = true;
 
         xserver = {
             displayManager.sddm.enable = true;
