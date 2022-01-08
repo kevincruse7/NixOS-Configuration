@@ -25,11 +25,8 @@
         gnome.dconf-editor
         gnome.seahorse
         hunspellDicts.en_US
-
-        # https://github.com/NixOS/nixpkgs/issues/153436
-        # libreoffice-fresh
-        libreoffice
-
+        konversation
+        libreoffice-fresh
         libsForQt5.ark
         libsForQt5.kcalc
         libsForQt5.ksystemlog
