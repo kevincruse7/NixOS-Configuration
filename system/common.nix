@@ -25,7 +25,6 @@
         gnome.dconf-editor
         gnome.seahorse
         hunspellDicts.en_US
-        konversation
         libreoffice-fresh
         libsForQt5.ark
         libsForQt5.kcalc
@@ -33,6 +32,7 @@
         lutris
         mullvad-vpn
         multimc
+        neochat
         neofetch
         nixos-option
         partition-manager
