@@ -19,6 +19,7 @@
         celluloid
         disable-dpms
         discord
+        element-desktop
         enable-dpms
         exiftool
         firefox
@@ -32,7 +33,6 @@
         lutris
         mullvad-vpn
         multimc
-        neochat
         neofetch
         nixos-option
         partition-manager
