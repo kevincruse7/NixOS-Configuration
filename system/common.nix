@@ -1,6 +1,14 @@
 { config, lib, pkgs, ... }: {
     boot = {
         consoleLogLevel = 3;
+
+        initrd.availableKernelModules = [
+            "ahci"
+            "usbhid"
+            "xhci_pci"
+        ];
+
+        kernelModules = [ "kvm-intel" ];
         kernelParams = [ "quiet" ];
 
         loader = {
@@ -78,15 +86,19 @@
         ];
     };
 
-    hardware.pulseaudio = {
-        enable = true;
+    hardware = {
+        enableRedistributableFirmware = true;
 
-        # DAC configuration
-        daemon.config = {
-            avoid-resampling = true;
-            default-sample-format = "s24le";
-            default-sample-rate = 96000;
-            resample-method = "soxr-vhq";
+        pulseaudio = {
+            enable = true;
+
+            # DAC configuration
+            daemon.config = {
+                avoid-resampling = true;
+                default-sample-format = "s24le";
+                default-sample-rate = 96000;
+                resample-method = "soxr-vhq";
+            };
         };
     };
 

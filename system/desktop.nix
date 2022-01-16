@@ -5,20 +5,15 @@
     ];
 
     boot = {
-        kernelModules = [ "kvm-intel" ];
         kernelParams = [ "nvidia-drm.modeset=1" ];
 
         initrd.availableKernelModules = [
-            "xhci_pci"
-            "ahci"
-            "usb_storage"
-            "usbhid"
             "sd_mod"
             "sr_mod"
+            "usb_storage"
         ];
     };
 
-    hardware.enableRedistributableFirmware = true;
     home-manager.users.kevin = import ../user/desktop.nix;
 
     networking = {

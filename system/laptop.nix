@@ -1,6 +1,18 @@
 { config, lib, pkgs, ... }: {
     imports = [ ./common.nix ];
-    boot.kernelParams = [ "mem_sleep_default=deep" ];  # Use more power efficient deep sleep
+
+    boot = {
+        initrd = {
+            availableKernelModules = [
+                "nvme"
+                "rtsx_pci_sdmmc"
+            ];
+
+            luks.devices.cryptroot.device = "/dev/disk/by-label/nixos";
+        };
+
+        kernelParams = [ "mem_sleep_default=deep" ];  # Use more power efficient deep sleep
+    };
 
     hardware = {
         bluetooth.enable = true;
@@ -24,6 +36,8 @@
         hostName = "Kevin-Laptop";
         interfaces.wlp59s0.useDHCP = true;
     };
+
+    powerManagement.cpuFreqGovernor = "powersave";
 
     services = {
         hardware.bolt.enable = true;
