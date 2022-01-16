@@ -8,7 +8,7 @@
                 "rtsx_pci_sdmmc"
             ];
 
-            luks.devices.cryptroot.device = "/dev/disk/by-label/nixos";
+            luks.devices.cryptroot.device = "/dev/disk/by-uuid/09a8dd1d-76a9-4ba0-87fa-06409505019e";
         };
 
         kernelParams = [ "mem_sleep_default=deep" ];  # Use more power efficient deep sleep
