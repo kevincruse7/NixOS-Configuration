@@ -5,12 +5,18 @@
         username = "kevin";
         homeDirectory = "/home/kevin";
 
-        packages = with pkgs; [(python3.withPackages (
-            python-packages: with python-packages; [
-                mypy
-                pylint
-            ]
-        ))];
+        packages = with pkgs; [
+            gcc
+            gnumake
+
+            (python3.withPackages (
+                python-packages: with python-packages; [
+                    jupyter
+                    mypy
+                    pylint
+                ]
+            ))
+        ];
 
         stateVersion = "22.05";
     };
