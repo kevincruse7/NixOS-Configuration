@@ -16,6 +16,8 @@
                     pylint
                 ]
             ))
+
+            racket
         ];
 
         stateVersion = "22.05";
