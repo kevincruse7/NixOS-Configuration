@@ -7,12 +7,16 @@
 
         packages = with pkgs; [
             gcc
+            gdb
             gnumake
+            man-pages-posix
 
             (python3.withPackages (
                 python-packages: with python-packages; [
                     jupyter
                     mypy
+                    numpy
+                    pandas
                     pylint
                 ]
             ))
@@ -38,5 +42,6 @@
         };
 
         home-manager.enable = true;
+        man.enable = false;  # Use system install of man-db
     };
 }
