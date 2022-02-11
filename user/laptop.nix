@@ -22,6 +22,7 @@
             ))
 
             racket
+            valgrind
         ];
 
         stateVersion = "22.05";
