@@ -8,13 +8,16 @@
         packages = with pkgs; [
             gcc
             gdb
+            glibc
             gnumake
             man-pages-posix
 
             (python3.withPackages (
                 python-packages: with python-packages; [
                     jupyter
+                    matplotlib
                     mypy
+                    numexpr
                     numpy
                     pandas
                     pylint
