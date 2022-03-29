@@ -10,6 +10,7 @@
             gdb
             glibc
             gnumake
+            man-pages
             man-pages-posix
 
             (python3.withPackages (
@@ -19,12 +20,16 @@
                     mypy
                     numexpr
                     numpy
+                    scikit-learn
+                    scipy
+                    seaborn
                     pandas
                     pylint
                 ]
             ))
 
             racket
+            strace
             valgrind
         ];
 
