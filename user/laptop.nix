@@ -6,15 +6,14 @@
         homeDirectory = "/home/kevin";
 
         packages = with pkgs; [
-            gcc
+            fontconfig
             gdb
-            glibc
             gnumake
-            man-pages
-            man-pages-posix
+            gnupatch
 
             (python3.withPackages (
                 python-packages: with python-packages; [
+                    graphviz
                     jupyter
                     matplotlib
                     mypy
@@ -28,6 +27,7 @@
                 ]
             ))
 
+            qemu
             racket
             strace
             valgrind
