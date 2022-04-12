@@ -8,8 +8,15 @@
         packages = with pkgs; [
             fontconfig
             gdb
+            ghc
             gnumake
             gnupatch
+
+            (perl.withPackages (
+                perl-packages: with perl-packages; [
+                    Expect
+                ]
+            ))
 
             (python3.withPackages (
                 python-packages: with python-packages; [
