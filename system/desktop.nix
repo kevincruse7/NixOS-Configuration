@@ -56,7 +56,6 @@
         libsForQt5.ksystemlog
         lutris
         mullvad-vpn
-        multimc
         neofetch
         nixos-option
         partition-manager
@@ -111,10 +110,11 @@
             enable = true;
 
             # DAC configuration
+            # TODO: Set back to s24le 96000Hz when Firefox fixes audio support
             daemon.config = {
                 avoid-resampling = true;
-                default-sample-format = "s24le";
-                default-sample-rate = 96000;
+                # default-sample-format = "s24le";
+                # default-sample-rate = 96000;
                 resample-method = "soxr-vhq";
             };
         };
