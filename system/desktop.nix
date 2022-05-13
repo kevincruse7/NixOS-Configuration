@@ -59,6 +59,7 @@
         neofetch
         nixos-option
         partition-manager
+        polymc
         protontricks
 
         (python3.withPackages (
