@@ -14,7 +14,7 @@
 
             (perl.withPackages (
                 perl-packages: with perl-packages; [
-                    Expect
+                    TestSimple13
                 ]
             ))
 
@@ -36,6 +36,7 @@
 
             qemu
             racket
+            sloccount
             strace
             valgrind
         ];
@@ -58,6 +59,7 @@
         };
 
         home-manager.enable = true;
+        java.enable = true;
         man.enable = false;  # Use system install of man-db
     };
 }
